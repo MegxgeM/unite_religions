@@ -1,0 +1,31 @@
+<html>
+    <head>
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+    </head>
+    <body>
+        <div class="container w-25 mt-3">
+            <section class="list-group">
+                <div class="list-group-item list-group-item-action" aria-current="true">
+                    {% block chapter %} {% endblock %}
+                </div>
+            </section>
+        </div>
+
+        <div class="container w-50 mt-5 mb-5">
+            {% block verses %} {% endblock %}
+        </div>
+
+        <div class="container w-25 mb-5 d-flex justify-content-center">
+            <a class="btn btn-primary" href="{% url "reader" %}">I am going to have faith</a>
+        </div>
+
+        <div class="container mb-5">
+            Sources:
+            <ul>
+                {% block sources %} {% endblock %}
+            </ul>
+        </div>
+
+    </body>
+</html>

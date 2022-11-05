@@ -1,0 +1,32 @@
+{% extends "base_reader.html" %}
+{% load custom_filters %}
+
+{% block chapter %}
+    <h1 class="d-flex justify-content-center">{{ book }} {{ chapter }}</h1>
+    <h4 class="d-flex justify-content-center">{{ num_verses }} verses</h4>
+    {% endblock %}
+
+{% block verses %}
+    {% for num_verse, verse in verses %}
+        {% if verse|startswith:"title_" %}
+            <section class="list-group">
+                <div class="list-group-item list-group-item-action mb-3" aria-current="true">
+                    <p class="d-flex justify-content-center fw-bold mb-1">{{ verse|cut:"title_" }}</p>
+                </div>
+            </section>
+        {% else %}
+            <section class="list-group">
+                <div class="list-group-item list-group-item-action mb-3" aria-current="true">
+                    <p class="mb-2">﴾{{ num_verse }}﴿</p>
+                    <p class="mb-1">{{ verse }}</p>
+                </div>
+            </section>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block sources %}
+    {% for source in sources %}
+    <li><a href="{{ source }}">{{ source }}</a></li>
+    {% endfor %}
+{% endblock %}
