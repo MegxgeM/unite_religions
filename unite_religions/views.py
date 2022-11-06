@@ -4,9 +4,10 @@ from bs4 import BeautifulSoup
 import requests
 from django import shortcuts
 from datetime import datetime
-from unite_religions.religions import Christianity, Islam
+from unite_religions.religions import Christianity, Islam, Sikhism
 
 def index(request):
+    Sikhism(request).sri_guru_granth_sahib()
     return shortcuts.render(request, "index.html")
 
 def reader(request):
