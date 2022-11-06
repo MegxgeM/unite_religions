@@ -14,6 +14,7 @@ class Religion:
 class Christianity(Religion):
 
     def __init__(self, request):
+        super().__init__()
         self.request = request
 
     def bible(self) -> shortcuts.render:
@@ -48,6 +49,7 @@ class Christianity(Religion):
 class Islam(Religion):
 
     def __init__(self, request):
+        super().__init__()
         self.request = request
 
     def quran(self) -> shortcuts.render:
@@ -79,3 +81,35 @@ class Islam(Religion):
             data["quran_verses"].append((ar_verse.text.strip(), en_verse.find_all(text=True, recursive=True)[2].strip()))
 
         return shortcuts.render(self.request, "quran_reader.html", context=data)
+
+
+class Sikhism(Religion):
+
+    def __init__(self, request):
+        super().__init__()
+        self.request = request
+
+    def sri_guru_granth_sahib(self) -> shortcuts.render:
+        data = {}
+        data["chapter"] = 1
+        data["verses"] = []
+
+        # Gurmukhi verses and their translation
+        srigranth = self.get_bs(f"https://www.srigranth.org/servlet/gurbani.gurbani?Action=Page&Param={data['chapter']}")
+        gurmukhi_verses = srigranth.find_all("font", {"face": "AnmolUniPr"})
+        translations = srigranth.find_all("font", {"color": "#000080"})
+
+        for gv, trans in zip(gurmukhi_verses, translations):
+            data["verses"].append({
+                "gurmukhi": " ".join(gv.find_all(text=True, recursive=True)),
+                "translation": trans.string.strip()
+            })
+
+        # TODO Transcriptions and print in the web (and remove the call from the index)
+        transcriptions = self.get_bs(f"https://www.srigurugranth.org/{data['chapter']:04d}.html").find_all("font", {"face": "Tahoma"})
+        print(f"https://www.srigurugranth.org/{data['chapter']:04d}.html")
+        for verse, transcription in zip(data["verses"], transcriptions):
+            verse["transcription"] = " ".join(transcription.find_all(text=True, recursive=False))
+
+        print(data, len(data["verses"]))
+        
