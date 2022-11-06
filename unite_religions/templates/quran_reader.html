@@ -1,0 +1,26 @@
+{% extends "base_reader.html" %}
+
+{% block chapter %}
+    <h1 class="d-flex justify-content-center">{{ name }}</h1>
+    <h2 class="d-flex justify-content-center">{{ transcription }}</h2>
+    <h3 class="d-flex justify-content-center">{{ translation }}</h3>
+    <h4 class="d-flex justify-content-center">{{ num_verses }}</h4>
+{% endblock %}
+
+{% block verses %}
+    {% for ar_verse, en_verse in quran_verses %}
+        <section class="list-group">
+            <div class="list-group-item list-group-item-action mb-3" aria-current="true">
+                <p class="mb-2">﴾{{ forloop.counter }}﴿</p>
+                <p class="d-flex justify-content-end mb-1">{{ ar_verse }}</p>
+                <p class="mb-1">{{ en_verse }}</p>
+            </div>
+        </section>
+    {% endfor %}
+{% endblock %}
+
+{% block sources %}
+    {% for source in sources %}
+    <li><a href="{{ source }}">{{ source }}</a></li>
+    {% endfor %}
+{% endblock %}
